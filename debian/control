@@ -1,0 +1,31 @@
+Source: hazelux
+Section: utils
+Priority: optional
+Maintainer: Hazelux Maintainers <hazelux@example.com>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, meson, ninja-build
+Standards-Version: 4.6.2
+Homepage: https://github.com/hazelux/hazelux
+Rules-Requires-Root: no
+
+Package: hazelux
+Architecture: all
+Depends: ${python3:Depends},
+         ${misc:Depends},
+         python3 (>= 3.11),
+         python3-gi,
+         python3-gi-cairo,
+         gir1.2-gtk-4.0,
+         gir1.2-adw-1,
+         gir1.2-ayatanaappindicator3-0.1,
+         python3-watchfiles,
+         python3-regex,
+         python3-pystray,
+         python3-exifread,
+         python3-pil,
+         python3-jsonschema
+Description: Native Linux desktop file automation daemon and configuration utility
+ Hazelux is a native Linux desktop file automation daemon and graphical
+ configuration utility architected for Debian and Ubuntu derivatives,
+ with primary optimization for Zorin OS. It continuously evaluates
+ filesystem events against user-defined declarative rules to automate
+ routine file organization tasks such as sorting, renaming, and cleaning.

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.hazelux.Hazelux</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Hazelux</name>
+  <summary>Native Linux desktop file automation daemon and configuration utility</summary>
+  <description>
+    <p>
+      Hazelux continuously evaluates filesystem events against user-defined declarative rules
+      to automate routine file organization tasks such as sorting, renaming, copying, and cleaning.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Fast asynchronous inotify file monitoring with Three-Stat Quiescence Protocol</li>
+      <li>Declarative rules engine with rich conditions (name, extension, size, modified date, created date, EXIF date)</li>
+      <li>Crash-resilient SQLite WAL journal tracking and instant one-click Undo</li>
+      <li>Non-destructive file relocation with rename counter collision resolution</li>
+      <li>FreeDesktop Trash integration with metadata restoration</li>
+      <li>Native GTK4 and Libadwaita user interface designed for Zorin OS and GNOME</li>
+      <li>StatusNotifierItem system tray presence</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.hazelux.Hazelux.desktop</launchable>
+  <provides>
+    <binary>hazelux</binary>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-09-14">
+      <description>
+        <p>Initial Phase 1 MVP release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

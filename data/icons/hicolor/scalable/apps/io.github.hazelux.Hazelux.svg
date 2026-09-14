@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="folderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#388E3C" />
+      <stop offset="100%" stop-color="#1B5E20" />
+    </linearGradient>
+    <linearGradient id="tabGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4CAF50" />
+      <stop offset="100%" stop-color="#2E7D32" />
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Folder tab -->
+  <path d="M 16 32 C 16 26 20 22 26 22 L 52 22 C 58 22 62 26 66 32 L 72 38 L 102 38 C 108 38 112 42 112 48 L 112 100 C 112 106 108 110 102 110 L 26 110 C 20 110 16 106 16 100 Z"
+        fill="url(#tabGrad)" />
+
+  <!-- Folder body -->
+  <rect x="16" y="38" width="96" height="72" rx="10" fill="url(#folderGrad)" filter="url(#dropShadow)" />
+
+  <!-- Automation gears & arrow emblem -->
+  <g transform="translate(64, 74)">
+    <!-- Rotating sync arrows symbol -->
+    <circle cx="0" cy="0" r="22" fill="#FFFFFF" fill-opacity="0.9" />
+    <path d="M -12 -4 C -10 -12 -2 -16 6 -14 L 4 -19 L 16 -12 L 10 -1 L 8 -6 C 2 -7 -4 -4 -6 2 Z" fill="#2E7D32" />
+    <path d="M 12 4 C 10 12 2 16 -6 14 L -4 19 L -16 12 L -10 1 L -8 6 C -2 7 4 4 6 -2 Z" fill="#1B5E20" />
+    <circle cx="0" cy="0" r="5" fill="#388E3C" />
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+app-id: io.github.hazelux.Hazelux
+runtime: org.gnome.Platform
+runtime-version: '47'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: hazelux
+finish-args:
+  # Broad filesystem permission is required for unattended file automation; see 'Known Flatpak Limitations' for the security trade-off.
+  - --filesystem=home
+  # Display servers
+  - --socket=fallback-x11
+  - --socket=wayland
+  # System notifications via Freedesktop portal
+  - --talk-name=org.freedesktop.Notifications
+  # StatusNotifierItem tray indicator permissions
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Required by pystray for StatusNotifierItem tray registration
+  # pystray registers via StatusNotifierWatcher; no own-name wildcard required.
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/hazelux/cargo
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/man
+modules:
+  # Required by pystray's Linux SNI backend
+  - name: libayatana-appindicator
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/AyatanaIndicators/libayatana-appindicator.git
+        tag: 0.5.93
+  # Generated via: flatpak-pip-generator --requirements-file=requirements.txt
+  # Must include: watchfiles, regex, pystray, exifread, Pillow
+  - python3-dependencies.json
+  - name: hazelux
+    buildsystem: meson
+    sources:
+      - type: dir
+        path: .

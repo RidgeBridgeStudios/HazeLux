@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Hazelux
+GenericName=File Automation Daemon
+Comment=Automate routine file organization, renaming, and sorting
+Exec=hazelux %U
+Icon=io.github.hazelux.Hazelux
+Terminal=false
+Type=Application
+Categories=Utility;FileManager;GTK;
+StartupNotify=true
+StartupWMClass=io.github.hazelux.Hazelux
+X-Purism-FormFactor=Workstation;Mobile;
+Actions=Background;
+
+[Desktop Action Background]
+Name=Start in Background
+Exec=hazelux --background

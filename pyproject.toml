@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hazelux"
+version = "0.1.0"
+description = "Native Linux desktop file automation daemon and configuration utility"
+authors = [{ name = "Hazelux Contributors" }]
+license = { text = "GPL-3.0-or-later" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "watchfiles>=0.21.0",
+    "regex>=2022.10.31",
+    "pystray>=0.19.4",
+    "exifread>=3.0.0",
+    "Pillow>=10.0.0",
+    "jsonschema>=4.10.3",
+]
+
+[project.scripts]
+hazelux = "hazelux.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hazelux*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

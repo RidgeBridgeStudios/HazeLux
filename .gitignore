@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Hazelux local runtime data
+rules.json
+rules.json.bak
+*.rules.json.tmp
+journal.db
+journal.db-wal
+journal.db-shm
+
+# Staging files
+.staging_*
+
+# Debian build artifacts
+debian/.debhelper/
+debian/hazelux/
+debian/files
+debian/*.substvars
+*.deb
+*.build
+*.buildinfo
+*.changes
+
+# Meson build directory
+_build/
