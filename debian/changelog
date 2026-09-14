@@ -1,3 +1,11 @@
+hazelux (0.1.1-1) noble; urgency=medium
+
+  * Add comprehensive product thesis and expansion roadmap (Rehearsal Mode,
+    rule bundles, cron scheduling, and ledger).
+  * Bump version to 0.1.1.
+
+ -- Hazelux Maintainers <hazelux@example.com>  Mon, 14 Sep 2026 21:55:00 +0200
+
 hazelux (0.1.0-1) noble; urgency=medium
 
   * Initial release of Hazelux (Phase 1 MVP).

@@ -48,7 +48,7 @@ Native `.deb` packages grant unmediated access to kernel inotify events:
 dpkg-buildpackage -us -uc -b
 
 # Install
-sudo dpkg -i ../hazelux_0.1.0-1_all.deb
+sudo dpkg -i ../hazelux_0.1.1-1_all.deb
 sudo apt-get install -f
 ```
 

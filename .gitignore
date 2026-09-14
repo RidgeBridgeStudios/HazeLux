@@ -49,6 +49,7 @@ debian/files
 debian/*.substvars
 *.deb
 *.build
+!meson.build
 *.buildinfo
 *.changes
 
