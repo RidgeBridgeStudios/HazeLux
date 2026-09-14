@@ -1,0 +1,26 @@
+# Hazelux
+
+> Native Linux desktop file automation daemon and GTK4/Libadwaita configuration utility.
+
+Hazelux monitors Linux directories with inotify (`watchfiles`), evaluates declarative user rules (matching names, extensions, file sizes, modification/creation dates, and EXIF metadata), and executes safe transactional filesystem actions (relocate, copy, token rename, trash) with SQLite WAL journal undo and crash-recovery support.
+
+## Docs
+- [README](README.md): Project architecture overview, installation methods, and feature matrix.
+
+## Source
+- [CLI Entry Point](hazelux/app.py): Application entrypoint, CLI options, and GTK lifecycle.
+- [Rule Engine](hazelux/engine/runner.py): Evaluates conditions and executes actions.
+- [Inotify Watcher](hazelux/engine/watcher.py): Asynchronous filesystem event watcher with 3-stat quiescence protocol.
+- [Conditions](hazelux/engine/conditions.py): Rule matching predicates for names, regexes, sizes, dates, and EXIF.
+- [Actions](hazelux/engine/actions.py): Safe atomic relocation, copy, token expansion rename, and trash operations.
+- [Loop Prevention](hazelux/engine/loop_prevention.py): Cooldown cache, destination event suppression, and cascading loop tracker.
+- [Transaction Journal](hazelux/journal/manager.py): SQLite WAL journal for transaction state tracking and rollback/undo.
+- [Configuration](hazelux/config.py): Rule configuration loader and writer.
+- [Rule Schema](hazelux/schema.py): JSON schema definition and validation for rules.
+- [UI Window](hazelux/ui/window.py): Libadwaita main application window.
+- [Rule Editor](hazelux/ui/rule_editor.py): GTK4 rule editing dialog.
+
+## Optional
+- [Flatpak Manifest](io.github.hazelux.Hazelux.yml): Flatpak build configuration.
+- [Debian Packaging](debian/control): Native Debian package specification.
+- [Meson Build](meson.build): Meson build system configuration.

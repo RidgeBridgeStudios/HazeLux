@@ -54,3 +54,8 @@ debian/*.substvars
 
 # Meson build directory
 _build/
+
+# Agent and tool artifacts
+graphify-out/
+.context-mode/
+.agents/cache/
