@@ -27,6 +27,11 @@
   </provides>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.0" date="2026-09-15">
+      <description>
+        <p>New credits About screen with publisher branding, and a real application icon in the system tray with close-to-tray behavior.</p>
+      </description>
+    </release>
     <release version="0.1.1" date="2026-09-14">
       <description>
         <p>Documentation and expansion roadmap release detailing Rehearsal Mode, rule bundles, cron scheduling, and structured activity ledger architecture.</p>

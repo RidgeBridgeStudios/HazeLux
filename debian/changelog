@@ -1,3 +1,15 @@
+hazelux (0.2.0-1) noble; urgency=medium
+
+  * Add credits About screen (Adw.AboutWindow) with publisher logo,
+    lead developer, publisher, and GPL-3.0-or-later license.
+  * Use the real application icon in the system tray instead of a
+    placeholder drawing.
+  * Hide to the system tray on window close when a tray icon is
+    available; close really closes when no tray exists, and the first
+    hide shows a hint toast.
+
+ -- Hazelux Maintainers <hazelux@example.com>  Tue, 15 Sep 2026 19:48:55 +0200
+
 hazelux (0.1.1-1) noble; urgency=medium
 
   * Add comprehensive product thesis and expansion roadmap (Rehearsal Mode,
