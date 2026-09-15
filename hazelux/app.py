@@ -21,6 +21,7 @@ from hazelux.config import ConfigManager
 from hazelux.engine.runner import RuleEngine
 from hazelux.journal.manager import JournalManager
 from hazelux.journal.reconcile import reconcile_journal_on_startup
+from hazelux.ui.about import show_about_window
 from hazelux.ui.tray import TrayManager
 from hazelux.ui.window import MainWindow
 from hazelux.utils.paths import get_journal_db_path, get_rules_path
@@ -90,6 +91,11 @@ class HazeluxApplication(Adw.Application):
         if not tray_started:
             self.start_in_background = False
 
+        # 7. Application actions
+        about_action = Gio.SimpleAction.new("about", None)
+        about_action.connect("activate", self._on_about)
+        self.add_action(about_action)
+
     def _start_async_worker(self) -> None:
         """Run asyncio event loop in dedicated background thread."""
         def run_loop():
@@ -133,6 +139,7 @@ class HazeluxApplication(Adw.Application):
                 config_manager=self.config_manager,
                 journal_manager=self.journal_manager,
                 rule_engine=self.rule_engine,
+                tray_active=self.tray_manager.is_active if self.tray_manager else False,
             )
 
         if self.start_in_background:
@@ -200,6 +207,12 @@ class HazeluxApplication(Adw.Application):
         logger.error(msg)
         if self.main_window:
             GLib.idle_add(self.main_window.show_toast, msg)
+
+    def _on_about(self, _action, _param) -> None:
+        """Present the About / credits window."""
+        if not self.main_window:
+            self.do_activate()
+        show_about_window(self.main_window)
 
     def _quit_application(self) -> None:
         if self.tray_manager:

@@ -32,6 +32,12 @@ install_data(
   install_dir: datadir / 'icons/hicolor/scalable/apps'
 )
 
+# Install publisher logo icon (About window)
+install_data(
+  'data/icons/hicolor/512x512/apps/io.github.hazelux.Hazelux.publisher.png',
+  install_dir: datadir / 'icons/hicolor/512x512/apps'
+)
+
 # Install launcher script into bindir
 install_data(
   'bin/hazelux',

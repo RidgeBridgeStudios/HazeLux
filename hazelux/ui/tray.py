@@ -3,11 +3,16 @@
 import logging
 import os
 import threading
+from io import BytesIO
+from pathlib import Path
 from typing import Any, Callable, Optional
 
 from PIL import Image, ImageDraw
 
 logger = logging.getLogger("hazelux.ui.tray")
+
+APP_ICON_NAME = "io.github.hazelux.Hazelux"
+TRAY_ICON_SIZE = 64
 
 
 def is_status_notifier_watcher_present() -> bool:
@@ -51,6 +56,53 @@ def create_tray_icon_image() -> Image.Image:
     return img
 
 
+def load_app_icon_image(size: int = TRAY_ICON_SIZE) -> Optional[Image.Image]:
+    """Rasterize the installed Hazelux application icon into a PIL image.
+
+    Resolves through the GTK icon theme so both meson-installed and
+    repository-checkout icons are found; returns None when there is no
+    display or the icon is unavailable.
+    """
+    try:
+        import gi
+        gi.require_version("Gtk", "4.0")
+        gi.require_version("Gdk", "4.0")
+        gi.require_version("GdkPixbuf", "2.0")
+        from gi.repository import Gdk, GdkPixbuf, Gtk
+
+        display = Gdk.Display.get_default()
+        if display is None:
+            return None
+
+        theme = Gtk.IconTheme.get_for_display(display)
+        # Dev convenience: pick up icons straight from a repository checkout.
+        # In installed layouts (site-packages) this path does not exist.
+        repo_icons = Path(__file__).resolve().parents[2] / "data" / "icons"
+        if (repo_icons / "hicolor").is_dir():
+            theme.add_search_path(str(repo_icons))
+
+        paintable = theme.lookup_icon(
+            APP_ICON_NAME,
+            None,
+            size,
+            1,
+            Gtk.TextDirection.NONE,
+            Gtk.IconLookupFlags.FORCE_REGULAR,
+        )
+        icon_file = paintable.get_file() if paintable is not None else None
+        if icon_file is None or icon_file.get_path() is None:
+            return None
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(icon_file.get_path(), size, size)
+        ok, png_bytes = pixbuf.save_to_bufferv("png", [], [])
+        if not ok:
+            return None
+        return Image.open(BytesIO(png_bytes)).convert("RGBA")
+    except Exception as e:
+        logger.debug("Could not load app icon for tray: %s", e)
+        return None
+
+
 class TrayManager:
     """Manages pystray StatusNotifierItem presence and callbacks."""
 
@@ -67,6 +119,11 @@ class TrayManager:
         self.on_quit = on_quit
         self.icon: Optional[Any] = None
         self._is_paused = False
+
+    @property
+    def is_active(self) -> bool:
+        """True when a tray icon has been registered this session."""
+        return self.icon is not None
 
     def setup_tray(self) -> bool:
         """Attempt to register StatusNotifierItem icon in system tray.
@@ -89,7 +146,8 @@ class TrayManager:
             return False
 
         try:
-            img = create_tray_icon_image()
+            # Prefer the real application icon; fall back to the drawn placeholder.
+            img = load_app_icon_image() or create_tray_icon_image()
 
             def get_pause_label(item):
                 return "Resume Automations" if self._is_paused else "Pause Automations"

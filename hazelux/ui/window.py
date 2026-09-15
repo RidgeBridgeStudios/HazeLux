@@ -8,7 +8,8 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 gi.require_version("GLib", "2.0")
-from gi.repository import Adw, GLib, Gtk
+gi.require_version("Gio", "2.0")
+from gi.repository import Adw, Gio, GLib, Gtk
 
 from hazelux.config import ConfigManager
 from hazelux.engine.runner import RuleEngine
@@ -30,11 +31,14 @@ class MainWindow(Adw.ApplicationWindow):
         config_manager: ConfigManager,
         journal_manager: JournalManager,
         rule_engine: RuleEngine,
+        tray_active: bool = False,
     ):
         super().__init__(application=application, title="Hazelux")
         self.config_manager = config_manager
         self.journal_manager = journal_manager
         self.rule_engine = rule_engine
+        self.tray_active = tray_active
+        self._close_hint_shown = False
 
         self.set_default_size(1050, 720)
         self.connect("close-request", self._on_close_request)
@@ -83,6 +87,14 @@ class MainWindow(Adw.ApplicationWindow):
         add_rule_btn.add_css_class("suggested-action")
         add_rule_btn.connect("clicked", self._on_add_rule_clicked)
         detail_header.pack_end(add_rule_btn)
+
+        # Primary menu (About screen)
+        main_menu = Gio.Menu()
+        main_menu.append("About Hazelux", "app.about")
+        menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
+        menu_btn.set_tooltip_text("Main Menu")
+        menu_btn.set_menu_model(main_menu)
+        detail_header.pack_end(menu_btn)
 
         self.detail_toolbar_view.add_top_bar(detail_header)
 
@@ -149,8 +161,19 @@ class MainWindow(Adw.ApplicationWindow):
         GLib.idle_add(self.show_toast, msg)
 
     def _on_close_request(self, _window) -> bool:
-        """Intercept window close request to hide window while daemon runs."""
+        """Hide to the system tray on close when the tray icon is available.
+
+        Without a tray icon the window must really close, otherwise the app
+        would be invisible and unreachable.
+        """
+        if not self.tray_active:
+            return False
         self.set_visible(False)
+        if not self._close_hint_shown:
+            self._close_hint_shown = True
+            self.show_toast(
+                "Hazelux keeps organizing files in the background. Reopen it from the tray icon."
+            )
         return True
 
     def refresh_ui(self) -> None:
